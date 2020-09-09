@@ -1,4 +1,5 @@
 const CreateLive = require('../../src/CreateLive');
+
 const fs = require('fs').promises;
 const path = require('path');
 describe('CreateLive', () => {
@@ -11,12 +12,12 @@ describe('CreateLive', () => {
                 },
             },
         };
-
-        const contract = await fs.readFile('/mnt/c/Users/jared/Projects/scratch/hellosign/test/data/contract.pdf')
+        
+        const contract = await fs.readFile(path.join(__dirname, '../data/', 'contract.pdf'))
             .catch((err) => {
                 console.log(err);
             });
-        console.log(contract);
+
         nock('https://api.hellosign.com:443', {"encodedQueryParams":true})
             .get('/v3/signature_request/files/' + event.body.signature_request.signature_request_id, "file_type=pdf")
             .query({"file_type":"pdf"})
